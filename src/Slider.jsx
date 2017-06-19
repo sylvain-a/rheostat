@@ -631,7 +631,7 @@ class Rheostat extends React.Component {
               : { left: `${pos}%`, position: 'absolute' };
         const height = countPitPoints[String(i)].length * 15 / max
         pitStyle.height = `${height}px`
-        histo.push(<PitComponent style={pitStyle}>{pitStyle}</PitComponent>)
+        histo.push(<PitComponent key={i} style={pitStyle}>{pitStyle}</PitComponent>)
       }
     }
 
