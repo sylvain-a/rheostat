@@ -619,11 +619,11 @@ class Rheostat extends React.Component {
 
       // determine max length for max height
       let max = 0
-      for (let i = 1; i <= keysCountPitPoints.length; i++) {
+      for (let i = 0; i < keysCountPitPoints.length; i++) {
         max = max < countPitPoints[String(i)].length ? countPitPoints[String(i)].length : max
       }
 
-      for (let i = 1; i <= keysCountPitPoints.length; i++) {
+      for (let i = 0; i < keysCountPitPoints.length; i++) {
         // console.log("countPitPoints[String(i)]", countPitPoints[String(i)]);
         const pos = i * 5
         let pitStyle = orientation === 'vertical'
