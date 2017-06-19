@@ -613,18 +613,16 @@ class Rheostat extends React.Component {
 
     let histo = []
     if (PitComponent && countPitPoints) {
-      // console.log("countPitPoints", countPitPoints);
       const keysCountPitPoints = Object.keys(countPitPoints).map(Number)
-      // console.log("keysCountPitPoints", keysCountPitPoints);
 
-      // determine max length for max height
+      // max height ?
       let max = 0
       for (let i = 0; i < keysCountPitPoints.length; i++) {
         max = max < countPitPoints[String(i)].length ? countPitPoints[String(i)].length : max
       }
 
+      // build each bar
       for (let i = 0; i < keysCountPitPoints.length; i++) {
-        // console.log("countPitPoints[String(i)]", countPitPoints[String(i)]);
         const pos = i * 5
         let pitStyle = orientation === 'vertical'
               ? { top: `${pos}%`, position: 'absolute' }
