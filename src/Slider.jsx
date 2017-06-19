@@ -613,9 +613,9 @@ class Rheostat extends React.Component {
 
     let histo = []
     if (PitComponent && countPitPoints) {
-      console.log("countPitPoints", countPitPoints);
+      // console.log("countPitPoints", countPitPoints);
       const keysCountPitPoints = Object.keys(countPitPoints).map(Number)
-      console.log("keysCountPitPoints", keysCountPitPoints);
+      // console.log("keysCountPitPoints", keysCountPitPoints);
 
       // determine max length for max height
       let max = 0
@@ -629,7 +629,7 @@ class Rheostat extends React.Component {
         let pitStyle = orientation === 'vertical'
               ? { top: `${pos}%`, position: 'absolute' }
               : { left: `${pos}%`, position: 'absolute' };
-        const height = countPitPoints[String(i)].length * 15 / max
+        const height = max > 0 ? (countPitPoints[String(i)].length * 15 / max) : 0
         pitStyle.height = `${height}px`
         histo.push(<PitComponent key={i} style={pitStyle}>{pitStyle}</PitComponent>)
       }
