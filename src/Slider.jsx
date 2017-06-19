@@ -74,6 +74,8 @@ const propTypes = {
   pitComponent: PropTypeReactComponent,
   // the points that pits are rendered on
   pitPoints: PropTypeArrOfNumber,
+  // the histogram to deisplay
+  countsPitPoints: PropTypes.object,
   // a custom progress bar you can pass in
   progressBar: PropTypeReactComponent,
   // should we snap?
@@ -93,6 +95,7 @@ const defaultProps = {
   min: SliderConstants.PERCENT_EMPTY,
   orientation: 'horizontal',
   pitPoints: [],
+  countsPitPoints: {},
   progressBar: 'div',
   snap: false,
   snapPoints: [],
@@ -603,8 +606,35 @@ class Rheostat extends React.Component {
       orientation,
       pitComponent: PitComponent,
       pitPoints,
+      countPitPoints,
       progressBar: ProgressBar,
     } = this.props;
+
+
+    let histo = []
+    if (PitComponent && countPitPoints) {
+      console.log("countPitPoints", countPitPoints);
+      const keysCountPitPoints = Object.keys(countPitPoints).map(Number)
+      console.log("keysCountPitPoints", keysCountPitPoints);
+
+      // determine max length for max height
+      let max = 0
+      for (let i = 1; i <= keysCountPitPoints.length; i++) {
+        max = max < countPitPoints[String(i)].length ? countPitPoints[String(i)].length : max
+      }
+
+      for (let i = 1; i <= keysCountPitPoints.length; i++) {
+        // console.log("countPitPoints[String(i)]", countPitPoints[String(i)]);
+        const pos = i * 5
+        let pitStyle = orientation === 'vertical'
+              ? { top: `${pos}%`, position: 'absolute' }
+              : { left: `${pos}%`, position: 'absolute' };
+        const height = countPitPoints[String(i)].length * 15 / max
+        pitStyle.height = `${height}px`
+        histo.push(<PitComponent style={pitStyle}>{pitStyle}</PitComponent>)
+      }
+    }
+
 
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
@@ -652,16 +682,7 @@ class Rheostat extends React.Component {
             />
           );
         })}
-        {PitComponent && pitPoints.map((n, index) => {
-          const pos = algorithm.getPosition(n, min, max);
-          const pitStyle = orientation === 'vertical'
-            ? { top: `${pos}%`, position: 'absolute' }
-            : { left: `${pos}%`, position: 'absolute' };
-
-          return (
-            <PitComponent key={`${n}_PC_${index}`} style={pitStyle}>{n}</PitComponent>
-          );
-        })}
+        {histo}
         {children}
       </div>
     );
